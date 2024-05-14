@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Page</title>
+    <style>
+        /* CSS for progress bar */
+        .progress-container {
+            width: 100%;
+            background-color: #f5f5f5;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 30px;
+            background-color: #007bff;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('/static/lappy.jpg'); /* Corrected URL */
+            background-size: cover; /* Scale the background image to cover the entire background area */
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Download Page</h2>
+    <form method="POST" action="/download"  onsubmit="startDownload(event)">
+        <label for="url">URL or String <span style="color: red;">*</span></label>
+        <input type="text" id="url" name="url" required>
+        
+        <label for="number">Number (Optional)</label>
+        <input type="number" id="number" name="number">
+        
+        <button type="submit">Download</button>
+        <button type="button" id="previewBtn">Preview</button>
+    </form>
+    <br>
+    <br>
+    <!-- Progress bar container -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar">0%</div>
+    </div>
+</div>
+
+<script>
+    function startDownload(event) {
+        // Prevent the form from submitting immediately
+        //event.preventDefault();
+        console.log('Downloading');
+
+        // Get the URL and number of images to download
+        var urlInput = document.getElementById('url');
+        var numberInput = document.getElementById('number');
+        
+        var url = urlInput.value;
+        var number = numberInput.value;
+
+        // Simulate downloading images (replace this with your actual download logic)
+        var imagesToDownload = parseInt(number) || 1; // Default to 1 if number is not specified or invalid
+        var downloadedImages = 0;
+        var progress = 0;
+
+        // Update progress bar
+        var progressBar = document.getElementById('progressBar');
+
+        function updateProgress() {
+            downloadedImages++;
+            progress = Math.min((downloadedImages / imagesToDownload) * 100, 100);
+            progressBar.style.width = progress + '%';
+            progressBar.innerHTML = progress.toFixed(2) + '%';
+
+            // If all images are downloaded, reset progress bar and clear input fields
+            if (downloadedImages === imagesToDownload) {
+                setTimeout(function () {
+                    progressBar.style.width = '0%';
+                    progressBar.innerHTML = '0%';
+                    // Clear input fields
+                    urlInput.value = '';
+                    numberInput.value = '';
+                }, 1000); // Reset after 1 second (adjust as needed)
+            }
+        }
+
+        // Simulate downloading images
+        for (var i = 0; i < imagesToDownload; i++) {
+            // Simulate image downloading time (replace this with actual image loading logic)
+            setTimeout(updateProgress, i * 1000); // Update progress every second (adjust as needed)
+        }
+    }
+
+    document.getElementById('previewBtn').addEventListener('click', function () {
+        var url = document.getElementById('url').value;
+        // Implement preview functionality here
+        alert('Preview: ' + url);
+    });
+</script>
+
+</body>
+</html>
+
+</body>
+</html>
